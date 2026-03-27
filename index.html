@@ -1,12 +1,883 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="images/icon.png" rel='icon' type='icon/png'>
-    <title>Muhammad Hafiizh</title>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Hafiizh — Fullstack Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"></noscript>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+
+:root{
+  --bg:#0c0e0f;
+  --bg2:#111315;
+  --surface:#161a1c;
+  --border:#232829;
+  --accent:#c8f0a0;
+  --accent2:#6ee7b7;
+  --text:#e8ece8;
+  --muted:#6b7272;
+  --muted2:#9aa09a;
+  --mono:#a8c4a8;
+}
+
+body{
+  font-family:'DM Sans',system-ui,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;right:0;
+  z-index:100;
+  padding:20px 40px;
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(12,14,15,.92);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+}
+.nav-logo{
+  font-family:'DM Mono',monospace,sans-serif;
+  font-size:13px;
+  color:var(--accent);
+  letter-spacing:.08em;
+}
+.nav-links{display:flex;gap:32px;list-style:none;}
+.nav-links a{
+  font-size:13px;color:var(--muted2);text-decoration:none;
+  transition:color .2s;letter-spacing:.02em;
+}
+.nav-links a:hover{color:var(--text);}
+.nav-lang{display:flex;gap:6px;}
+.lang-btn{
+  cursor:pointer;
+  font-size:11px;
+  padding:4px 12px;border-radius:20px;
+  border:1px solid var(--border);
+  background:transparent;color:var(--muted);
+  transition:all .2s;
+}
+.lang-btn.active{background:var(--accent);color:#0c0e0f;border-color:var(--accent);font-weight:600;}
+
+section{position:relative;z-index:1;}
+
+/* HERO */
+#hero{
+  min-height:100vh;
+  display:flex;align-items:center;
+  padding:120px 40px 80px;
+  max-width:1100px;margin:0 auto;
+}
+.hero-inner{max-width:680px;}
+.hero-tag{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:11px;color:var(--mono);letter-spacing:.1em;
+  margin-bottom:28px;
+}
+.dot-live{
+  width:7px;height:7px;border-radius:50%;
+  background:var(--accent2);
+  box-shadow:0 0 8px var(--accent2);
+  animation:pulse 2s infinite;
+}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.hero-name{
+  font-size:clamp(52px,8vw,88px);
+  line-height:.95;letter-spacing:-.03em;
+  margin-bottom:24px;font-weight:700;
+}
+.hero-name em{font-style:italic;color:var(--accent);}
+.hero-desc{
+  font-size:16px;color:var(--muted2);
+  line-height:1.75;max-width:520px;
+  margin-bottom:40px;font-weight:300;
+}
+.hero-desc strong{color:var(--text);font-weight:500;}
+.hero-cta{display:flex;gap:12px;flex-wrap:wrap;}
+.btn-primary{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--accent);color:#0c0e0f;
+  font-size:13px;font-weight:600;
+  padding:12px 24px;border-radius:8px;
+  text-decoration:none;transition:all .2s;letter-spacing:.02em;
+}
+.btn-primary:hover{background:#d4f5b0;transform:translateY(-1px);}
+.btn-outline{
+  display:inline-flex;align-items:center;gap:8px;
+  border:1px solid var(--border);color:var(--muted2);
+  font-size:13px;font-weight:500;
+  padding:12px 24px;border-radius:8px;
+  text-decoration:none;transition:all .2s;
+}
+.btn-outline:hover{border-color:var(--muted2);color:var(--text);}
+.hero-stats{
+  display:flex;gap:40px;margin-top:64px;
+  padding-top:40px;border-top:1px solid var(--border);
+}
+.stat-num{font-size:36px;color:var(--text);line-height:1;font-weight:700;}
+.stat-label{font-size:12px;color:var(--muted);margin-top:4px;letter-spacing:.04em;}
+
+/* SECTIONS */
+.section-wrap{max-width:1100px;margin:0 auto;padding:100px 40px;}
+.section-label{
+  font-size:11px;color:var(--mono);letter-spacing:.12em;
+  text-transform:uppercase;margin-bottom:16px;
+}
+.section-title{
+  font-size:clamp(32px,5vw,48px);
+  line-height:1.1;letter-spacing:-.02em;
+  margin-bottom:48px;font-weight:700;
+}
+.section-title em{font-style:italic;color:var(--accent);}
+hr.divider{border:none;border-top:1px solid var(--border);margin:0;}
+
+/* SKILLS */
+#skills{background:var(--bg2);}
+.skills-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;}
+.skill-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:12px;padding:20px;
+  transition:border-color .2s,transform .2s;
+}
+.skill-card:hover{border-color:rgba(200,240,160,.3);transform:translateY(-2px);}
+.skill-icon{font-size:22px;margin-bottom:10px;}
+.skill-name{font-size:14px;font-weight:600;margin-bottom:4px;}
+.skill-level{font-size:11px;color:var(--mono);}
+.skill-bar{margin-top:10px;height:2px;background:var(--border);border-radius:2px;}
+.skill-fill{height:100%;background:var(--accent);border-radius:2px;transition:width 1s ease;}
+
+/* SERVICES */
+.services-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px;}
+.service-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:14px;padding:28px;
+  transition:border-color .2s,transform .2s;
+  position:relative;overflow:hidden;
+}
+.service-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--accent),transparent);
+  opacity:0;transition:opacity .3s;
+}
+.service-card:hover{border-color:rgba(200,240,160,.25);transform:translateY(-3px);}
+.service-card:hover::before{opacity:1;}
+.service-num{font-size:11px;color:var(--muted);margin-bottom:16px;}
+.service-title{font-size:17px;font-weight:600;margin-bottom:8px;}
+.service-desc{font-size:13.5px;color:var(--muted2);line-height:1.7;}
+.service-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px;}
+.stag{
+  font-size:11px;background:rgba(200,240,160,.07);color:var(--mono);
+  border:1px solid rgba(200,240,160,.15);padding:3px 9px;border-radius:6px;
+}
+.service-price{
+  margin-top:16px;padding-top:16px;border-top:1px solid var(--border);
+  font-size:12px;color:var(--accent);
+}
+
+/* PROJECTS */
+#projects{background:var(--bg2);}
+.filter-wrap{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:36px;}
+.filter-btn{
+  cursor:pointer;
+  font-size:12px;font-weight:500;
+  padding:7px 16px;border-radius:20px;
+  border:1px solid var(--border);
+  background:transparent;color:var(--muted2);
+  transition:all .2s;
+}
+.filter-btn:hover{border-color:var(--muted2);color:var(--text);}
+.filter-btn.active{background:var(--accent);color:#0c0e0f;border-color:var(--accent);font-weight:600;}
+.project-card.hidden{display:none;}
+.projects-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:24px;}
+.project-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:14px;overflow:hidden;
+  transition:border-color .2s,transform .2s;
+}
+.project-card:hover{border-color:rgba(200,240,160,.3);transform:translateY(-4px);}
+.project-thumb{
+  aspect-ratio:16/9;background:var(--bg);
+  display:flex;align-items:center;justify-content:center;
+  font-size:40px;border-bottom:1px solid var(--border);
+}
+.project-body{padding:22px;}
+.project-meta{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.project-year{
+  font-size:10px;color:var(--accent);
+  background:rgba(200,240,160,.08);border:1px solid rgba(200,240,160,.2);
+  padding:2px 8px;border-radius:5px;
+}
+.project-client{font-size:10px;color:var(--muted);}
+.project-type{font-size:10px;color:var(--mono);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px;}
+.project-name{font-size:15px;font-weight:600;margin-bottom:8px;}
+.project-desc{font-size:13px;color:var(--muted2);line-height:1.65;}
+.project-stack{display:flex;flex-wrap:wrap;gap:5px;margin-top:14px;}
+.ptag{
+  font-size:10px;background:var(--bg);color:var(--muted2);
+  border:1px solid var(--border);padding:2px 8px;border-radius:5px;
+}
+
+/* CONTACT */
+.contact-inner{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start;}
+@media(max-width:700px){.contact-inner{grid-template-columns:1fr;}}
+.contact-text{font-size:15px;color:var(--muted2);line-height:1.8;}
+.contact-links{display:flex;flex-direction:column;gap:12px;margin-top:28px;}
+.contact-link{
+  display:flex;align-items:center;gap:12px;
+  color:var(--muted2);text-decoration:none;font-size:14px;
+  padding:14px 18px;background:var(--surface);
+  border:1px solid var(--border);border-radius:10px;transition:all .2s;
+}
+.contact-link:hover{border-color:rgba(200,240,160,.3);color:var(--text);transform:translateX(4px);}
+.contact-link .icon{font-size:18px;width:24px;text-align:center;}
+.contact-form{display:flex;flex-direction:column;gap:14px;}
+.form-group{display:flex;flex-direction:column;gap:6px;}
+.form-label{font-size:12px;color:var(--muted);}
+.form-input,.form-textarea{
+  background:var(--surface);border:1px solid var(--border);
+  color:var(--text);font-size:14px;
+  padding:12px 16px;border-radius:8px;outline:none;
+  transition:border-color .2s;resize:none;
+}
+.form-input:focus,.form-textarea:focus{border-color:rgba(200,240,160,.4);}
+.form-textarea{min-height:100px;}
+.form-submit{
+  background:var(--accent);color:#0c0e0f;
+  border:none;font-weight:600;font-size:14px;
+  padding:13px;border-radius:8px;cursor:pointer;transition:all .2s;
+}
+.form-submit:hover{background:#d4f5b0;transform:translateY(-1px);}
+
+/* FOOTER */
+footer{
+  border-top:1px solid var(--border);padding:32px 40px;
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;
+}
+.footer-copy{font-size:12px;color:var(--muted);}
+.footer-back{font-size:12px;color:var(--muted);text-decoration:none;transition:color .2s;}
+.footer-back:hover{color:var(--accent);}
+
+/* LANG */
+.id-text,.en-text{display:none;}
+.show{display:block!important;}
+span.show{display:inline!important;}
+a.show{display:inline-flex!important;}
+
+/* REVEAL - visible by default, animate if JS works */
+.reveal{opacity:1;transform:none;}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  nav{padding:16px 20px;}
+  .nav-links{display:none;}
+  #hero{padding:100px 24px 60px;}
+  .hero-stats{gap:24px;}
+  .section-wrap{padding:72px 24px;}
+  .skills-grid{grid-template-columns:repeat(2,1fr);}
+  footer{padding:24px;}
+}
+</style>
 </head>
 <body>
-    Hello World, I'm Hafiizh.
-</body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">hafiizh.dev</div>
+  <ul class="nav-links">
+    <li><a href="#skills" class="id-text show">Keahlian</a><a href="#skills" class="en-text">Skills</a></li>
+    <li><a href="#services" class="id-text show">Layanan</a><a href="#services" class="en-text">Services</a></li>
+    <li><a href="#projects" class="id-text show">Proyek</a><a href="#projects" class="en-text">Projects</a></li>
+    <li><a href="#contact" class="id-text show">Kontak</a><a href="#contact" class="en-text">Contact</a></li>
+  </ul>
+  <div class="nav-lang">
+    <button class="lang-btn active" onclick="setLang('id')">ID</button>
+    <button class="lang-btn" onclick="setLang('en')">EN</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-inner">
+    <div class="hero-tag">
+      <span class="dot-live"></span>
+      <span class="id-text show">Tersedia untuk proyek baru</span>
+      <span class="en-text">Available for new projects</span>
+    </div>
+    <h1 class="hero-name">
+      Fullstack<br/><em>Developer</em>
+    </h1>
+    <p class="hero-desc">
+      <span class="id-text show">
+        Halo, saya <strong>Hafiizh</strong> — developer dengan <strong>10+ tahun pengalaman</strong> membangun web, aplikasi mobile, dan sistem backend untuk bisnis dari berbagai industri di Indonesia dan internasional.
+      </span>
+      <span class="en-text">
+        Hi, I'm <strong>Hafiizh</strong> — a developer with <strong>10+ years of experience</strong> building web apps, mobile applications, and backend systems for businesses across various industries in Indonesia and internationally.
+      </span>
+    </p>
+    <div class="hero-cta">
+      <a href="#services" class="btn-primary">
+        <span class="id-text show">Lihat Layanan</span>
+        <span class="en-text">View Services</span>
+        →
+      </a>
+      <a href="#contact" class="btn-outline">
+        <span class="id-text show">Hubungi Saya</span>
+        <span class="en-text">Get in Touch</span>
+      </a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="stat-num">10+</div>
+        <div class="stat-label id-text show">Tahun Pengalaman</div>
+        <div class="stat-label en-text">Years Experience</div>
+      </div>
+      <div>
+        <div class="stat-num">30+</div>
+        <div class="stat-label id-text show">Proyek Selesai</div>
+        <div class="stat-label en-text">Projects Completed</div>
+      </div>
+      <div>
+        <div class="stat-num">15+</div>
+        <div class="stat-label id-text show">Klien Puas</div>
+        <div class="stat-label en-text">Happy Clients</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider"/>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-wrap">
+    <div class="section-label reveal">Tech Stack</div>
+    <h2 class="section-title reveal">
+      <span class="id-text show">Keahlian <em>Teknis</em></span>
+      <span class="en-text">Technical <em>Skills</em></span>
+    </h2>
+    <div class="skills-grid">
+      <div class="skill-card reveal">
+        <div class="skill-icon">⚡</div>
+        <div class="skill-name">Laravel / PHP</div>
+        <div class="skill-level">Expert</div>
+        <div class="skill-bar"><div class="skill-fill" style="width:92%"></div></div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-icon">▲</div>
+        <div class="skill-name">Next.js / React</div>
+        <div class="skill-level">Advanced</div>
+        <div class="skill-bar"><div class="skill-fill" style="width:88%"></div></div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-icon">🟢</div>
+        <div class="skill-name">Node.js / Express</div>
+        <div class="skill-level">Advanced</div>
+        <div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-icon">📱</div>
+        <div class="skill-name">Flutter</div>
+        <div class="skill-level">Intermediate+</div>
+        <div class="skill-bar"><div class="skill-fill" style="width:78%"></div></div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-icon">🗄️</div>
+        <div class="skill-name">MySQL / PostgreSQL</div>
+        <div class="skill-level">Advanced</div>
+        <div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-icon">🔧</div>
+        <div class="skill-name">DevOps / VPS</div>
+        <div class="skill-level">Intermediate+</div>
+        <div class="skill-bar"><div class="skill-fill" style="width:72%"></div></div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-icon">🤖</div>
+        <div class="skill-name">AI / LLM Integration</div>
+        <div class="skill-level">Intermediate+</div>
+        <div class="skill-bar"><div class="skill-fill" style="width:70%"></div></div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-icon">🌐</div>
+        <div class="skill-name">WordPress</div>
+        <div class="skill-level">Intermediate</div>
+        <div class="skill-bar"><div class="skill-fill" style="width:75%"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider"/>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="section-wrap">
+    <div class="section-label reveal">What I Offer</div>
+    <h2 class="section-title reveal">
+      <span class="id-text show"><em>Layanan</em> Tersedia</span>
+      <span class="en-text">Available <em>Services</em></span>
+    </h2>
+    <div class="services-grid">
+
+      <div class="service-card reveal">
+        <div class="service-num">01</div>
+        <div class="service-title id-text show">Website & Web App</div>
+        <div class="service-title en-text">Website & Web App</div>
+        <div class="service-desc id-text show">Membangun website company profile, landing page, toko online WooCommerce, blog, hingga web application kompleks — cepat, responsif, dan SEO-friendly. Tersedia opsi WordPress (Elementor) maupun custom development.</div>
+        <div class="service-desc en-text">Building company profiles, landing pages, WooCommerce stores, blogs, and complex web applications — fast, responsive, and SEO-friendly. Available in WordPress (Elementor) or custom development.</div>
+        <div class="service-tags">
+          <span class="stag">Laravel</span><span class="stag">Next.js</span><span class="stag">WordPress</span><span class="stag">WooCommerce</span>
+        </div>
+        <div class="service-price id-text show">Mulai dari Rp 3.000.000</div>
+        <div class="service-price en-text">Starting from $200</div>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-num">02</div>
+        <div class="service-title id-text show">Backend API & Sistem</div>
+        <div class="service-title en-text">Backend API & Systems</div>
+        <div class="service-desc id-text show">Perancangan dan pengembangan RESTful API, sistem manajemen data, integrasi payment gateway, dan arsitektur backend yang scalable.</div>
+        <div class="service-desc en-text">Designing and developing RESTful APIs, data management systems, payment gateway integration, and scalable backend architecture.</div>
+        <div class="service-tags">
+          <span class="stag">Node.js</span><span class="stag">Laravel</span><span class="stag">PostgreSQL</span>
+        </div>
+        <div class="service-price id-text show">Mulai dari Rp 4.000.000</div>
+        <div class="service-price en-text">Starting from $250</div>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-num">03</div>
+        <div class="service-title id-text show">Aplikasi Mobile</div>
+        <div class="service-title en-text">Mobile Application</div>
+        <div class="service-desc id-text show">Pengembangan aplikasi mobile Android & iOS menggunakan Flutter — dari UI/UX hingga integrasi API backend dan deployment ke Play Store.</div>
+        <div class="service-desc en-text">Developing Android & iOS mobile apps using Flutter — from UI/UX to backend API integration and Play Store deployment.</div>
+        <div class="service-tags">
+          <span class="stag">Flutter</span><span class="stag">Dart</span><span class="stag">REST API</span>
+        </div>
+        <div class="service-price id-text show">Mulai dari Rp 5.000.000</div>
+        <div class="service-price en-text">Starting from $350</div>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-num">04</div>
+        <div class="service-title id-text show">Sistem Informasi & ERP</div>
+        <div class="service-title en-text">Information System & ERP</div>
+        <div class="service-desc id-text show">Membangun sistem informasi kustom — inventory, HRIS, kasir/POS, manajemen proyek — sesuai kebutuhan bisnis kamu.</div>
+        <div class="service-desc en-text">Building custom information systems — inventory, HRIS, POS/cashier, project management — tailored to your business needs.</div>
+        <div class="service-tags">
+          <span class="stag">Laravel</span><span class="stag">Flutter</span><span class="stag">MySQL</span>
+        </div>
+        <div class="service-price id-text show">Mulai dari Rp 6.000.000</div>
+        <div class="service-price en-text">Starting from $400</div>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-num">05</div>
+        <div class="service-title id-text show">Integrasi AI & Otomasi</div>
+        <div class="service-title en-text">AI Integration & Automation</div>
+        <div class="service-desc id-text show">Mengintegrasikan AI/LLM ke dalam aplikasi kamu — chatbot WhatsApp, auto-response, workflow automation dengan n8n, dan lebih banyak lagi.</div>
+        <div class="service-desc en-text">Integrating AI/LLM into your application — WhatsApp chatbots, auto-responses, workflow automation with n8n, and more.</div>
+        <div class="service-tags">
+          <span class="stag">n8n</span><span class="stag">OpenAI</span><span class="stag">WhatsApp API</span>
+        </div>
+        <div class="service-price id-text show">Mulai dari Rp 3.500.000</div>
+        <div class="service-price en-text">Starting from $220</div>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-num">06</div>
+        <div class="service-title id-text show">Mentoring & Pelatihan Coding</div>
+        <div class="service-title en-text">Coding Mentoring & Training</div>
+        <div class="service-desc id-text show">Sesi mentoring 1-on-1 atau pelatihan tim untuk Laravel, Next.js, Flutter, dan Node.js — dari pemula hingga tingkat lanjut.</div>
+        <div class="service-desc en-text">1-on-1 mentoring or team training sessions for Laravel, Next.js, Flutter, and Node.js — from beginner to advanced level.</div>
+        <div class="service-tags">
+          <span class="stag">Laravel</span><span class="stag">Next.js</span><span class="stag">Flutter</span>
+        </div>
+        <div class="service-price id-text show">Rp 250.000 / sesi</div>
+        <div class="service-price en-text">$20 / session</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr class="divider"/>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-wrap">
+    <div class="section-label reveal">Portfolio</div>
+    <h2 class="section-title reveal">
+      <span class="id-text show">Proyek <em>Pilihan</em></span>
+      <span class="en-text">Selected <em>Projects</em></span>
+    </h2>
+
+    <!-- FILTER TABS -->
+    <div class="filter-wrap reveal">
+      <button class="filter-btn active" data-filter="all">
+        <span class="id-text show">Semua</span><span class="en-text">All</span>
+      </button>
+      <button class="filter-btn" data-filter="web">
+        <span class="id-text show">Web App</span><span class="en-text">Web App</span>
+      </button>
+      <button class="filter-btn" data-filter="mobile">
+        <span class="id-text show">Mobile</span><span class="en-text">Mobile</span>
+      </button>
+      <button class="filter-btn" data-filter="wordpress">WordPress</button>
+      <button class="filter-btn" data-filter="government">
+        <span class="id-text show">Pemerintahan</span><span class="en-text">Government</span>
+      </button>
+      <button class="filter-btn" data-filter="ai">AI / Automation</button>
+    </div>
+
+    <div class="projects-grid" id="projects-grid">
+
+      <!-- 1 Apotek -->
+      <div class="project-card reveal" data-cat="web mobile">
+        <div class="project-thumb" style="background:linear-gradient(135deg,#0d1f0d,#162816);">💊</div>
+        <div class="project-body">
+          <div class="project-meta"><span class="project-year">2025–2026</span><span class="project-client">Visionmind</span></div>
+          <div class="project-type id-text show">Web App · Mobile</div>
+          <div class="project-type en-text">Web App · Mobile</div>
+          <div class="project-name id-text show">Sistem Manajemen Apotek</div>
+          <div class="project-name en-text">Pharmacy Management System</div>
+          <div class="project-desc id-text show">Backend API, admin panel web, dan aplikasi mobile HRIS terintegrasi untuk manajemen stok obat, transaksi, dan karyawan.</div>
+          <div class="project-desc en-text">Backend API, web admin panel, and integrated mobile HRIS for medicine stock, transactions, and employee management.</div>
+          <div class="project-stack"><span class="ptag">Laravel</span><span class="ptag">Flutter</span><span class="ptag">MySQL</span><span class="ptag">REST API</span></div>
+        </div>
+      </div>
+
+      <!-- 2 CMS JVADev -->
+      <div class="project-card reveal" data-cat="web">
+        <div class="project-thumb" style="background:linear-gradient(135deg,#0f1a20,#162535);">🗃️</div>
+        <div class="project-body">
+          <div class="project-meta"><span class="project-year">2026</span><span class="project-client">JVADev</span></div>
+          <div class="project-type">Web App · CMS</div>
+          <div class="project-name id-text show">Platform CMS Multi-tenant</div>
+          <div class="project-name en-text">Multi-tenant CMS Platform</div>
+          <div class="project-desc id-text show">CMS modular dengan backend API dan admin panel untuk pengelolaan konten multi-tenant, RBAC, dan konfigurasi sistem.</div>
+          <div class="project-desc en-text">Modular CMS with backend API and admin panel for multi-tenant content management, RBAC, and system configuration.</div>
+          <div class="project-stack"><span class="ptag">Next.js</span><span class="ptag">Laravel</span><span class="ptag">PostgreSQL</span></div>
+        </div>
+      </div>
+
+      <!-- 3 Bencana BPBD -->
+      <div class="project-card reveal" data-cat="web government">
+        <div class="project-thumb" style="background:linear-gradient(135deg,#1a0e0e,#2e1010);">🚨</div>
+        <div class="project-body">
+          <div class="project-meta"><span class="project-year">2023</span><span class="project-client">PT. JAGAT (Contract)</span></div>
+          <div class="project-type id-text show">Web App · Pemerintahan</div>
+          <div class="project-type en-text">Web App · Government</div>
+          <div class="project-name id-text show">Aplikasi Informasi Bencana BPBD</div>
+          <div class="project-name en-text">Disaster Information System — BPBD</div>
+          <div class="project-desc id-text show">Sistem informasi dan backend untuk pengelolaan data bencana Kabupaten Cirebon, mencakup pelaporan, peta sebaran, dan notifikasi publik.</div>
+          <div class="project-desc en-text">Disaster data management system and backend for Cirebon Regency's BPBD, including incident reporting, distribution maps, and public notifications.</div>
+          <div class="project-stack"><span class="ptag">Laravel</span><span class="ptag">MySQL</span><span class="ptag">REST API</span></div>
+        </div>
+      </div>
+
+      <!-- 4 VisitCirebon -->
+      <div class="project-card reveal" data-cat="web government">
+        <div class="project-thumb" style="background:linear-gradient(135deg,#0d1a10,#163020);">🗺️</div>
+        <div class="project-body">
+          <div class="project-meta"><span class="project-year">2023</span><span class="project-client">PT. JAGAT (Contract)</span></div>
+          <div class="project-type id-text show">Web · Pariwisata</div>
+          <div class="project-type en-text">Web · Tourism</div>
+          <div class="project-name">VisitCirebon.id</div>
+          <div class="project-desc id-text show">Website pariwisata resmi Kota Cirebon — menampilkan destinasi wisata, kuliner, event, dan panduan perjalanan berbasis web.</div>
+          <div class="project-desc en-text">Official tourism website for Cirebon City — featuring tourist destinations, culinary spots, events, and travel guides.</div>
+          <div class="project-stack"><span class="ptag">Laravel</span><span class="ptag">MySQL</span><span class="ptag">Bootstrap</span></div>
+        </div>
+      </div>
+
+      <!-- 5 Lalu Lintas Polres -->
+      <div class="project-card reveal" data-cat="web government">
+        <div class="project-thumb" style="background:linear-gradient(135deg,#0d150f,#1a2810);">🚦</div>
+        <div class="project-body">
+          <div class="project-meta"><span class="project-year">2015–kini</span><span class="project-client">Zeratik</span></div>
+          <div class="project-type id-text show">Web App · Pemerintahan</div>
+          <div class="project-type en-text">Web App · Government</div>
+          <div class="project-name id-text show">Monitoring Lalu Lintas Polres Cirebon</div>
+          <div class="project-name en-text">Police Traffic Monitoring System</div>
+          <div class="project-desc id-text show">Sistem monitoring lalu lintas real-time untuk Polres Cirebon, dilengkapi dashboard interaktif dan manajemen laporan.</div>
+          <div class="project-desc en-text">Real-time traffic monitoring system for Cirebon Police with interactive dashboard and report management.</div>
+          <div class="project-stack"><span class="ptag">PHP</span><span class="ptag">JavaScript</span><span class="ptag">MySQL</span></div>
+        </div>
+      </div>
+
+      <!-- 6 Disdukcapil -->
+      <div class="project-card reveal" data-cat="web government">
+        <div class="project-thumb" style="background:linear-gradient(135deg,#0f1a0d,#182b14);">🗂️</div>
+        <div class="project-body">
+          <div class="project-meta"><span class="project-year">2015–kini</span><span class="project-client">Zeratik</span></div>
+          <div class="project-type id-text show">Web App · Pemerintahan</div>
+          <div class="project-type en-text">Web App · Government</div>
+          <div class="project-name id-text show">Sistem Disdukcapil Majalengka</div>
+          <div class="project-name en-text">Civil Registration Information System</div>
+          <div class="project-desc id-text show">Sistem informasi pengelolaan data kependudukan untuk Dinas Kependudukan Kabupaten Majalengka.</div>
+          <div class="project-desc en-text">Civil administration data management system for Majalengka Regency's Population Office.</div>
+          <div class="project-stack"><span class="ptag">PHP</span><span class="ptag">Laravel</span><span class="ptag">MySQL</span></div>
+        </div>
+      </div>
+
+      <!-- 7 Desa Ciawi Gajah -->
+      <div class="project-card reveal" data-cat="web government">
+        <div class="project-thumb" style="background:linear-gradient(135deg,#0e1a0c,#162a10);">🏘️</div>
+        <div class="project-body">
+          <div class="project-meta"><span class="project-year">2025</span><span class="project-client">Freelance</span></div>
+          <div class="project-type id-text show">Web · Pemerintahan Desa</div>
+          <div class="project-type en-text">Web · Village Government</div>
+          <div class="project-name id-text show">Web & Sistem Informasi Desa Ciawi Gajah</div>
+          <div class="project-name en-text">Ciawi Gajah Village Website & Info System</div>
+          <div class="project-desc id-text show">Website resmi dan sistem informasi untuk Desa Ciawi Gajah, mencakup profil desa, berita, layanan administrasi warga, dan data publik.</div>
+          <div class="project-desc en-text">Official website and information system for Ciawi Gajah Village, covering village profile, news, citizen administration services, and public data.</div>
+          <div class="project-stack"><span class="ptag">CodeIgniter</span><span class="ptag">MySQL</span><span class="ptag">Bootstrap</span></div>
+        </div>
+      </div>
+
+      <!-- 8 POS AIO Store -->
+      <div class="project-card reveal" data-cat="web">
+        <div class="project-thumb" style="background:linear-gradient(135deg,#0c1a10,#15281a);">🖥️</div>
+        <div class="project-body">
+          <div class="project-meta"><span class="project-year">2022</span><span class="project-client">Freelance</span></div>
+          <div class="project-type id-text show">Web App · Ritel</div>
+          <div class="project-type en-text">Web App · Retail</div>
+          <div class="project-name id-text show">Sistem POS — AIO Store Cirebon</div>
+          <div class="project-name en-text">POS System — AIO Store Cirebon</div>
+          <div class="project-desc id-text show">Aplikasi Point of Sale berbasis web untuk AIO Store Cirebon, mencakup manajemen produk, transaksi kasir, stok, dan laporan penjualan.</div>
+          <div class="project-desc en-text">Web-based Point of Sale application for AIO Store Cirebon, covering product management, cashier transactions, stock, and sales reporting.</div>
+          <div class="project-stack"><span class="ptag">CodeIgniter</span><span class="ptag">MySQL</span><span class="ptag">Bootstrap</span></div>
+        </div>
+      </div>
+
+      <!-- 9 KasirKu -->
+      <div class="project-card reveal" data-cat="mobile">
+        <div class="project-thumb" style="background:linear-gradient(135deg,#0c1a10,#15281a);">🏪</div>
+        <div class="project-body">
+          <div class="project-meta"><span class="project-year">2024–2025</span><span class="project-client">Personal</span></div>
+          <div class="project-type id-text show">Mobile · Desktop App</div>
+          <div class="project-type en-text">Mobile · Desktop App</div>
+          <div class="project-name id-text show">KasirKu — Aplikasi POS UMKM</div>
+          <div class="project-name en-text">KasirKu — SME POS Application</div>
+          <div class="project-desc id-text show">Aplikasi kasir/POS lintas platform untuk UMKM Indonesia, mendukung Android dan desktop dengan database lokal offline-first.</div>
+          <div class="project-desc en-text">Cross-platform POS/cashier app for Indonesian SMEs, supporting Android and desktop with offline-first local database.</div>
+          <div class="project-stack"><span class="ptag">Flutter</span><span class="ptag">Drift ORM</span><span class="ptag">Riverpod</span></div>
+        </div>
+      </div>
+
+      <!-- 10 Mobile Olshop Jasmine -->
+      <div class="project-card reveal" data-cat="mobile">
+        <div class="project-thumb" style="background:linear-gradient(135deg,#1a0e18,#2a1228);">🛒</div>
+        <div class="project-body">
+          <div class="project-meta"><span class="project-year">2025</span><span class="project-client">RZF Software (Contract)</span></div>
+          <div class="project-type id-text show">Mobile App · E-commerce</div>
+          <div class="project-type en-text">Mobile App · E-commerce</div>
+          <div class="project-name id-text show">Aplikasi Mobile Olshop Toko Jasmine</div>
+          <div class="project-name en-text">Toko Jasmine Mobile Shopping App</div>
+          <div class="project-desc id-text show">Aplikasi mobile e-commerce untuk Toko Jasmine, mencakup katalog produk, keranjang belanja, checkout, dan integrasi pembayaran.</div>
+          <div class="project-desc en-text">Mobile e-commerce application for Toko Jasmine, featuring product catalog, shopping cart, checkout flow, and payment integration.</div>
+          <div class="project-stack"><span class="ptag">React Native</span><span class="ptag">REST API</span><span class="ptag">MySQL</span></div>
+        </div>
+      </div>
+
+      <!-- 11 AI Chatbot -->
+      <div class="project-card reveal" data-cat="ai">
+        <div class="project-thumb" style="background:linear-gradient(135deg,#101a0e,#1c2e18);">🤖</div>
+        <div class="project-body">
+          <div class="project-meta"><span class="project-year">2024–2025</span><span class="project-client">HBI Tour & Travellogi</span></div>
+          <div class="project-type">AI · Automation</div>
+          <div class="project-name id-text show">WhatsApp AI Chatbot Travel</div>
+          <div class="project-name en-text">Travel AI WhatsApp Chatbot</div>
+          <div class="project-desc id-text show">Chatbot customer service otomatis berbasis AI untuk agen travel, dengan human handover dan monitoring Telegram.</div>
+          <div class="project-desc en-text">AI-powered automated customer service chatbot for a travel agency, with human handover logic and Telegram monitoring.</div>
+          <div class="project-stack"><span class="ptag">n8n</span><span class="ptag">Llama 3.3</span><span class="ptag">WAHA</span></div>
+        </div>
+      </div>
+
+      <!-- 12 Klinik -->
+      <div class="project-card reveal" data-cat="web">
+        <div class="project-thumb" style="background:linear-gradient(135deg,#0d1520,#121e30);">🏥</div>
+        <div class="project-body">
+          <div class="project-meta"><span class="project-year">2020–2021</span><span class="project-client">Rayana</span></div>
+          <div class="project-type id-text show">Web App · Healthcare</div>
+          <div class="project-type en-text">Web App · Healthcare</div>
+          <div class="project-name id-text show">Sistem Informasi Klinik</div>
+          <div class="project-name en-text">Clinic Information System</div>
+          <div class="project-desc id-text show">Sistem informasi manajemen klinik mencakup pendaftaran pasien, rekam medis, antrian, dan pelaporan medis berbasis web.</div>
+          <div class="project-desc en-text">Clinic management system covering patient registration, medical records, queue management, and web-based medical reporting.</div>
+          <div class="project-stack"><span class="ptag">PHP</span><span class="ptag">Laravel</span><span class="ptag">MySQL</span></div>
+        </div>
+      </div>
+
+      <!-- 13 LMS -->
+      <div class="project-card reveal" data-cat="web">
+        <div class="project-thumb" style="background:linear-gradient(135deg,#111a0e,#1a2c12);">🎓</div>
+        <div class="project-body">
+          <div class="project-meta"><span class="project-year">2020–2021</span><span class="project-client">Rayana</span></div>
+          <div class="project-type id-text show">Web App · Edukasi</div>
+          <div class="project-type en-text">Web App · Education</div>
+          <div class="project-name">Learning Management System (LMS)</div>
+          <div class="project-desc id-text show">Platform LMS berbasis web untuk pengelolaan kursus, materi pembelajaran, ujian online, dan progress tracking peserta didik.</div>
+          <div class="project-desc en-text">Web-based LMS platform for managing courses, learning materials, online exams, and student progress tracking.</div>
+          <div class="project-stack"><span class="ptag">PHP</span><span class="ptag">Laravel</span><span class="ptag">MySQL</span></div>
+        </div>
+      </div>
+
+      <!-- 14 AMDK -->
+      <div class="project-card reveal" data-cat="web">
+        <div class="project-thumb" style="background:linear-gradient(135deg,#0e1c0c,#162a14);">💧</div>
+        <div class="project-body">
+          <div class="project-meta"><span class="project-year">2022–2025</span><span class="project-client">PT. SMT</span></div>
+          <div class="project-type id-text show">Web App · Manufaktur</div>
+          <div class="project-type en-text">Web App · Manufacturing</div>
+          <div class="project-name id-text show">Sistem Produksi AMDK</div>
+          <div class="project-name en-text">Bottled Water Production System</div>
+          <div class="project-desc id-text show">Sistem informasi end-to-end pengelolaan produksi Air Minum Dalam Kemasan dari bahan baku hingga distribusi.</div>
+          <div class="project-desc en-text">End-to-end production management system for bottled water manufacturing, from raw materials to distribution.</div>
+          <div class="project-stack"><span class="ptag">Laravel</span><span class="ptag">MySQL</span><span class="ptag">Bootstrap</span></div>
+        </div>
+      </div>
+
+      <!-- 15 WooCommerce multi -->
+      <div class="project-card reveal" data-cat="wordpress">
+        <div class="project-thumb" style="background:linear-gradient(135deg,#0d1a16,#0f2820);">🛍️</div>
+        <div class="project-body">
+          <div class="project-meta"><span class="project-year">2020–kini</span><span class="project-client">Berbagai Klien</span></div>
+          <div class="project-type">WordPress · E-commerce</div>
+          <div class="project-name id-text show">Toko Online WooCommerce (Multi-klien)</div>
+          <div class="project-name en-text">WooCommerce Online Stores (Multi-client)</div>
+          <div class="project-desc id-text show">Membangun dan mengelola beberapa website toko online & company profile menggunakan WordPress, WooCommerce, dan Elementor.</div>
+          <div class="project-desc en-text">Built and managed multiple online stores and company profile sites using WordPress, WooCommerce, and Elementor.</div>
+          <div class="project-stack"><span class="ptag">WordPress</span><span class="ptag">WooCommerce</span><span class="ptag">Elementor</span></div>
+        </div>
+      </div>
+
+      <!-- 16 TB MY Sukses -->
+      <div class="project-card reveal" data-cat="wordpress">
+        <div class="project-thumb" style="background:linear-gradient(135deg,#1a1408,#2e2210);">🏗️</div>
+        <div class="project-body">
+          <div class="project-meta"><span class="project-year">2025</span><span class="project-client">Freelance</span></div>
+          <div class="project-type">WordPress · E-commerce</div>
+          <div class="project-name id-text show">Web Olshop TB. MY Sukses Cirebon</div>
+          <div class="project-name en-text">TB. MY Sukses Cirebon Online Store</div>
+          <div class="project-desc id-text show">Toko online berbasis WordPress dan WooCommerce untuk toko bahan bangunan MY Sukses Cirebon, lengkap dengan katalog produk dan sistem pemesanan.</div>
+          <div class="project-desc en-text">WordPress & WooCommerce online store for MY Sukses building materials shop in Cirebon, with product catalog and ordering system.</div>
+          <div class="project-stack"><span class="ptag">WordPress</span><span class="ptag">WooCommerce</span><span class="ptag">Elementor</span></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- EMPTY STATE -->
+    <div id="empty-state" style="display:none;text-align:center;padding:60px 0;color:var(--muted);font-size:14px;">
+      <div style="font-size:32px;margin-bottom:12px;">🔍</div>
+      <span class="id-text show">Tidak ada proyek di kategori ini.</span>
+      <span class="en-text">No projects in this category.</span>
+    </div>
+
+  </div>
+</section>
+
+<hr class="divider"/>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-wrap">
+    <div class="section-label reveal">Let's Work Together</div>
+    <h2 class="section-title reveal">
+      <span class="id-text show">Mulai <em>Proyek</em> Bersama</span>
+      <span class="en-text">Start a <em>Project</em> Together</span>
+    </h2>
+    <div class="contact-inner">
+      <div>
+        <p class="contact-text reveal id-text show">
+          Punya ide proyek? Butuh developer yang bisa diandalkan? Mari diskusi — saya terbuka untuk proyek freelance, kolaborasi jangka panjang, maupun posisi full-time.
+        </p>
+        <p class="contact-text reveal en-text">
+          Have a project idea? Need a reliable developer? Let's talk — I'm open to freelance projects, long-term collaboration, or full-time positions.
+        </p>
+        <div class="contact-links">
+          <a href="/cdn-cgi/l/email-protection#cba3aaada2a2b1a38baea6aaa2a7e5a8a4a6" class="contact-link reveal">
+            <span class="icon">✉️</span>
+            <span class="__cf_email__" data-cfemail="5038313639392a3810353d31393c7e333f3d">[email&#160;protected]</span>
+          </a>
+          <a href="https://wa.me/62xxxxxxxx" class="contact-link reveal" target="_blank">
+            <span class="icon">💬</span>
+            WhatsApp
+          </a>
+          <a href="https://linkedin.com/in/hafiizh" class="contact-link reveal" target="_blank">
+            <span class="icon">💼</span>
+            LinkedIn
+          </a>
+          <a href="https://github.com/hafiizh" class="contact-link reveal" target="_blank">
+            <span class="icon">🐙</span>
+            GitHub
+          </a>
+        </div>
+      </div>
+      <div class="contact-form reveal">
+        <div class="form-group">
+          <label class="form-label id-text show">NAMA</label>
+          <label class="form-label en-text">NAME</label>
+          <input type="text" class="form-input" placeholder="John Doe"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">EMAIL</label>
+          <input type="email" class="form-input" placeholder="john@company.com"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label id-text show">PESAN</label>
+          <label class="form-label en-text">MESSAGE</label>
+          <textarea class="form-textarea" placeholder="Ceritakan proyek kamu..."></textarea>
+        </div>
+        <button class="form-submit id-text show">Kirim Pesan →</button>
+        <button class="form-submit en-text">Send Message →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-copy">© 2026 Hafiizh · Built with passion</div>
+  <a href="#hero" class="footer-back">↑ Back to top</a>
+</footer>
+
+<script>
+// FILTER
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+    const filter = this.dataset.filter;
+    let visible = 0;
+    document.querySelectorAll('.project-card').forEach(card => {
+      const cats = card.dataset.cat || '';
+      if (filter === 'all' || cats.includes(filter)) {
+        card.classList.remove('hidden'); visible++;
+      } else {
+        card.classList.add('hidden');
+      }
+    });
+    const empty = document.getElementById('empty-state');
+    if (empty) empty.style.display = visible === 0 ? 'block' : 'none';
+  });
+});
+
+// LANG TOGGLE
+function setLang(lang) {
+  const other = lang === 'id' ? 'en' : 'id';
+  document.querySelectorAll('.' + lang + '-text').forEach(el => el.classList.add('show'));
+  document.querySelectorAll('.' + other + '-text').forEach(el => el.classList.remove('show'));
+  document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+  event.target.classList.add('active');
+}
+</script></body>
 </html>
